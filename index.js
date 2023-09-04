@@ -261,4 +261,6 @@ app.post('/trimester', async (req, res) => {
 
 app.use((err, req, res, next) => console.log(`Error catch: ${err}` ));
 
-app.listen(1000, () => console.log('Server running on port: 1000'));
+const PORT = process.env.PORT || 1000;
+
+app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
