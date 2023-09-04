@@ -1,0 +1,78 @@
+<button type='button' class='btn btn-sm btn-info bg-gradient text-nowrap' data-bs-toggle='modal' data-bs-target='#addClassScheduleModal'>
+    <i class='bi bi-folder-plus'></i> Add Class Schedule
+</button>
+
+<div class='modal fade' id='addClassScheduleModal' tabindex='-1' aria-labelledby='addClassScheduleModalLabel' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-body bg-dark text-white'>
+        <form class='small d-grid gap-3' id='addClassScheduleForm'>
+          <div class='row'>
+            {{!-- <div class='col'>
+              <label for='code'>Subject Code</label>
+              <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='code'>
+            </div> --}}
+            <div class='col'>
+              <label for='subject'>Subject</label>
+              <select class='form-select form-select-sm bg-transparent text-white text-capitalize' id='subject' name='subject'>
+                <option value='' selected>Select Subject...</option>
+                {{#each subjectsInTrimester}}
+                  <option value='{{this._id}}'>{{this.title}} ({{this.code}})</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col'>
+              <label for='section'>Section</label>
+              <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='section'>
+            </div>
+            <div class='col'>
+              <label for='room'>Room</label>
+              <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='room'>
+            </div>
+            <div class='col'>
+              <label for='days'>Days</label>
+              <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='days'>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col'>
+              <label for='teacher'>Teacher</label>
+              {{!-- <input type='text' class='form-control form-control-sm bg-transparent text-white' id='teacher'> --}}
+              <select class='form-select form-select-sm bg-transparent text-white text-capitalize' id='teacher' name='teacher'>
+                <option value='' selected>Select Teacher...</option>
+                {{#each teachers}}
+                  <option value='{{this._id}}'>{{this.firstname}} {{this.lastname}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col'>
+              <label for='timeStart'>Start Time</label>
+              <input type='time' class='form-control form-control-sm bg-transparent text-white' id='timeStart'>
+            </div>
+            <div class='col'>
+              <label for='timeEnd'>Start End</label>
+              <input type='time' class='form-control form-control-sm bg-transparent text-white' id='timeEnd'>
+            </div>
+            <div class='col'>
+              <label for='slot'>Slot</label>
+              <input type='text' class='form-control form-control-sm bg-transparent text-white' id='slot'>
+            </div>
+          </div>
+          {{!-- <button type='submit' class='btn btn-sm btn-primary'>Submit</button> --}}
+          <div class='row mt-2'>
+            <div class='col'>
+              <button type='submit' class='btn btn-sm btn-primary w-100' id='submitClassScheduleBtn'>Submit</button>
+            </div>
+            <div class='col d-none'>
+              <button type='button' class='btn btn-sm btn-danger w-100' id='deleteClassScheduleBtn'>Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

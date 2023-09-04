@@ -1,0 +1,41 @@
+{{!-- <button type='button' class='btn position-fixed top-0 end-0 text-white' data-bs-toggle='modal' data-bs-target='#infoModal'><i class='bi bi-info-circle fs-1'></i></button>
+
+<div class='modal fade' id='infoModal' tabindex='-1' aria-labelledby='infoModalLabel' aria-hidden='true'>
+    <div class='modal-dialog'>
+        <div class='modal-content bg-dark'>
+            <div class='modal-body bg-dark bg-gradient text-white rounded-4'>
+                <div>
+                    <h5>Get in Touch</h5>
+                    <p class='small'>If you are interested in finding out more about how we can help our organization, please fill out the form below. You can visit us at anytime between Monday to Saturday (7am to 5pm)</p>
+                </div>
+                <div>
+                    <p class='small'><i class='bi bi-geo-alt-fill me-2'></i>ICCT Building. V.V. Soliven Ave. II, Cainta, Rizal</p>
+                </div>
+                <div>
+                    <p class='small'><i class='bi bi-telephone-fill me-2'></i>(02)7.955.6284 / (02)8.249.1178</p>
+                </div>
+                <div>
+                    <p class='small'><i class='bi bi-phone-fill me-2'></i>0932.872.4228 / 0947.895.4228 / 0917.814.4228</p>
+                </div>
+                <div>
+                    <p class='small'><i class='bi bi-envelope-fill me-2'></i>info@icct.edu.ph</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class='d-flex justify-content-center mt-5'>
+    <form action='/login' class='d-grid gap-3 loginForm' method='post'>
+        <img src='icct-logo-2.png' class='logo'>
+        <div class='form-floating text-white'>
+            <input type='text' class='form-control bg-dark text-white border-0' id='loginUsername' placeholder='username' name='username'>
+            <label for='loginUsername'>Username</label>
+        </div>
+        <div class='form-floating text-white'>
+            <input type='password' class='form-control bg-dark text-white border-0' id='loginPassword' placeholder='password' name='password'>
+            <label for='loginPassword'>Password</label>
+        </div>
+        <button type='submit' class='btn btn-dark bg-gradient'>Login</button>
+    </form>
+</div>

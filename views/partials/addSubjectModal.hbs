@@ -1,0 +1,116 @@
+<button type='button' class='btn btn-sm btn-warning bg-gradient text-nowrap' data-bs-toggle='modal' data-bs-target='#addSubjectModal'>
+    <i class='bi bi-journal-plus'></i> Add Subject
+</button>
+
+<div class='modal fade' id='addSubjectModal' tabindex='-1' aria-labelledby='addSubjectModalLabel' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-body bg-dark text-white'>
+        <form id='addSubjectForm'>
+            <div class='d-grid gap-2 small'>
+
+                <div class='d-flex justify-content-between'>
+                    <span>Course:</span>
+                    <div class='d-flex gap-3 text-uppercase' id='courseCheckBoxes'>
+                        <div class='form-check'>
+                            <input type='checkbox' class='form-check-input' id='act' name='course' value='act'>
+                            <label class='form-check-label' for='act'>act</label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='checkbox' class='form-check-input' id='bscs' name='course' value='bscs'>
+                            <label class='form-check-label' for='bscs'>bscs</label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='checkbox' class='form-check-input' id='bsis' name='course' value='bsis'>
+                            <label class='form-check-label' for='bsis'>bsis</label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='checkbox' class='form-check-input' id='bsit' name='course' value='bsit'>
+                            <label class='form-check-label' for='bsit'>bsit</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='d-flex justify-content-between'>
+                    <span>Year:</span>
+                    <div class='d-flex gap-3' id='yearRadioBtns'>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='firstYear' name='year' value='1st'>
+                            <label class='form-check-label' for='firstYear'>1<sup>ST</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='secondYear' name='year' value='2nd'>
+                            <label class='form-check-label' for='secondYear'>2<sup>ND</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='thirdYear' name='year' value='3rd'>
+                            <label class='form-check-label' for='thirdYear'>3<sup>RD</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='fourthYear' name='year' value='4th'>
+                            <label class='form-check-label' for='fourthYear'>4<sup>TH</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='fifthYear' name='year' value='5th'>
+                            <label class='form-check-label' for='fifthYear'>5<sup>TH</sup></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='d-flex justify-content-between'>
+                    <span>Trimester:</span>
+                    <div class='d-flex gap-3' id='trimesterRadioBtns'>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='firstTrimester' name='trimester' value='1st'>
+                            <label class='form-check-label' for='firstTrimester'>1<sup>ST</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='secondTrimester' name='trimester' value='2nd'>
+                            <label class='form-check-label' for='secondTrimester'>2<sup>ND</sup></label>
+                        </div>
+                        <div class='form-check'>
+                            <input type='radio' class='form-check-input' id='thirdTrimester' name='trimester' value='3rd'>
+                            <label class='form-check-label' for='thirdTrimester'>3<sup>RD</sup></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class='row'>
+                    <div class='col'>
+                        <label for='title'>Title</label>
+                        <input type='text' class='form-control form-control-sm bg-transparent text-white text-capitalize' id='title' name='title'>
+                    </div>
+                </div>
+
+                {{!-- <div class='d-flex align-items-center gap-3'> --}}
+                <div class='row'>
+                    <div class='col'>
+                        <label for='code'>Code</label>
+                        <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='code' name='code'>
+                    </div>
+                    <div class='col'>
+                        <label for='prerequisite'>Prerequisite</label>
+                        <input type='text' class='form-control form-control-sm bg-transparent text-white text-uppercase' id='prerequisite' name='prerequisite'>
+                    </div>
+                    <div class='col'>
+                        <label for='units'>Units</label>
+                        <input type='text' class='form-control form-control-sm bg-transparent text-white' id='units' name='units'>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class='row mt-2'>
+                <div class='col'>
+                    <button class='btn btn-sm btn-primary w-100' id='submitSubjectBtn' type='submit'>Submit</button>
+                </div>
+                <div class='col d-none'>
+                    <button class='btn btn-sm btn-danger w-100' id='deleteSubjectBtn' type='button'>Delete</button>
+                </div>
+            </div>
+            
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

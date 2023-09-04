@@ -1,0 +1,100 @@
+{{> navbar}}
+
+<br>
+
+<p class='text-capitalize text-white small'>{{user.firstname}} {{user.lastname}}</p>
+
+<div>
+    {{#each enrolledSubjects}}
+        {{!-- {{{subjectYearTrime this.subjects}}} --}}
+        <div class="accordion" id="enrolledSubjects">
+            {{#each this.classSchedules}}
+                <div class="accordion-item border-0">
+                    <p class="accordion-header">
+                        <button class="accordion-button collapsed p-1 text-capitalize text-white" type="button" style="font-size: .9rem; background-color: #151515;" data-bs-toggle="collapse" data-bs-target="#collapse{{this.subject._id}}">
+                            {{this.subject.title}}
+                        </button>
+                    </p>
+                    <div class="accordion-collapse collapse" id="collapse{{this.subject._id}}" data-bs-parent="enrolledSubjects">
+                        <div class="accordion-body p-1" style="background-color: #151515;">
+                            <table class="table table-sm table-borderless small text-white">
+                                <tr>
+                                    <th>Title</th>
+                                    <td class="text-capitalize">{{this.subject.title}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Code</th>
+                                    <td>{{this.subject.code}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Units</th>
+                                    <td>{{this.subject.units}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</div>
+{{!-- <div>
+    {{#each enrolledSubjects}}
+        {{{subjectYearTrime this.subjects}}}
+        <div class="accordion" id="enrolledSubjects">
+            {{#each this.subjects}}
+                <div class="accordion-item border-0">
+                    <p class="accordion-header">
+                        <button class="accordion-button collapsed p-1 text-capitalize text-white" type="button" style="font-size: .9rem; background-color: #151515;" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}">
+                            {{this.title}}
+                        </button>
+                    </p>
+                    <div class="accordion-collapse collapse" id="collapse{{this._id}}" data-bs-parent="enrolledSubjects">
+                        <div class="accordion-body p-1" style="background-color: #151515;">
+                            <table class="table table-sm table-borderless small text-white">
+                                <tr>
+                                    <th>Title</th>
+                                    <td class="text-capitalize">{{this.title}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Code</th>
+                                    <td>{{this.code}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Units</th>
+                                    <td>{{this.units}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</div> --}}
+
+{{!-- <div class='small text-white' id='subjectList'>
+    {{#each subjects}}
+        <div class='mb-3'>
+            <p class='text-capitalize mb-0'>{{this.title}}</p>
+            <div class='row'>
+                <div class='col'>
+                    <p class='mb-0 text-uppercase'>{{this.code}}</p>
+                </div>
+                <div class='col'>
+                    <p class='mb-0 text-nowrap'>Units: {{this.units}}</p>
+                </div>
+                <div class='col'>
+                    <p class='mb-0 text-nowrap'>Grade: {{this.grade.grade}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col'>
+                    <p class='mb-0'>Prerequisite: {{this.prerequisite}}</p>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div> --}}
+
+<div style='margin-bottom: 2rem;'></div>

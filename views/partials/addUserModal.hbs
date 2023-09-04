@@ -1,0 +1,63 @@
+<button type='button' class='btn btn-sm btn-primary bg-gradient text-nowrap' data-bs-toggle='modal' data-bs-target='#addUserModal'>
+    <i class='bi bi-person-plus-fill'></i> Add User
+</button>
+
+<div class='modal fade' id='addUserModal' tabindex='-1' aria-labelledby='addUserModalLabel' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-body bg-dark text-white'>
+        <form class='small' id='addUserForm'>
+            <div class='row gy-3'>
+                <div class='col-6'>
+                    <label for='firstname'>Firstname</label>
+                    <input type='text' class='form-control form-control-sm bg-transparent text-white border-0 border-bottom rounded-0 text-capitalize' id='firstname' name='firstname'>
+                </div>
+                <div class='col-6'>
+                    <label for='lastname'>Lastname</label>
+                    <input type='text' class='form-control form-control-sm bg-transparent text-white border-0 border-bottom rounded-0 text-capitalize' id='lastname' name='lastname'>
+                </div>
+                <div class='col-6'>
+                    <label for='role'>Role</label>
+                    <select class='form-select form-select-sm bg-transparent text-white' id='role' name='role'>
+                        <option value='' selected>Select Role</option>
+                        <option value='student'>Student</option>
+                        <option value='teacher'>Teacher</option>
+                        <option value='admin'>Admin</option>
+                    </select>
+                </div>
+                <div class='col-6'>
+                    <label for='studentId'>ID No.</label>
+                    <input type='text' class='form-control form-control-sm bg-transparent text-white border-0 border-bottom rounded-0 text-uppercase' id='idNumber' name='idNumber'>
+                </div>
+                <div class='col-6'>
+                    <label for='course'>Course</label>
+                    <select class='form-select form-select-sm bg-transparent text-white' id='course' name='course'>
+                        <option value='' selected>Select Course</option>
+                        <option value='act'>ACT</option>
+                        <option value='bscs'>BSCS</option>
+                        <option value='bsit'>BSIT</option>
+                        <option value='bsis'>BSIS</option>
+                    </select>
+                </div>
+                <div class='col-6'>
+                    <label for='campus'>Campus</label>
+                    <select class='form-select form-select-sm bg-transparent text-white' id='campus' name='campus'>
+                        <option value='' selected>Select Campus</option>
+                        <option value='cainta'>Cainta</option>
+                        <option value='antipolo'>Antipolo</option>
+                        <option value='binangonan'>Binangonan</option>
+                        <option value='cogeo'>Cogeo</option>
+                        <option value='san mateo'>San Mateo</option>
+                        <option value='sumulong'>Sumulong</option>
+                        <option value='taytay'>Taytay</option>
+                    </select>
+                </div>
+            </div>
+            <div class='d-grid mt-3'>
+                <button type='submit' class='btn btn-sm btn-primary'>Submit</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

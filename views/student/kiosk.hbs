@@ -1,0 +1,17 @@
+{{> navbar}}
+
+<br>
+
+<input type='text' class='form-control form-control-sm' id='searchBar'>
+
+<p class='text-white small text-end mt-2' id="classSchedulesCount"></p>
+
+<div class='small text-white mt-2' id='classScheduleList'>
+    {{#each classSchedules}}
+        <div class='p-3 mb-3'>
+            <p class='mb-0 text-capitalize'>{{this.subject.title}} <span class='text-uppercase'>({{this.subject.code}})</span></p>
+            <p class='mb-0'><span class='text-uppercase'>{{this.section}}</span> | Prof. <span class='text-capitalize'>{{this.teacher.firstname}} {{this.teacher.lastname}}</span></p>
+            <p class='mb-0'>Mon-Wed-Fri | {{this.timeStart}}-{{this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p>
+        </div>
+    {{/each}}
+</div>

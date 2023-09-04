@@ -1,0 +1,25 @@
+{{> navbar}}
+
+<br>
+
+<div class='text-white small d-flex flex-column justify-content-between' style='height: 10rem; box-shadow: inset 5px 5px 10px #080808, inset -5px -5px 10px #222222;'>
+    <div class="text-capitalize p-2" id="enrollClassBox" data-studentid='{{user._id}}'></div>
+    <div class='d-flex justify-content-end p-2 d-none'>
+        <button class='badge bg-primary border-0' id='saveEnrollSubjectsBtn'>Save</button>
+    </div>
+</div>
+
+<br>
+
+<div class='small text-white' id='classScheduleList'>
+    {{#each classSchedules}}
+        <div class='p-3 mb-3' data-id='{{this._id}}'>
+            <p class='mb-0 text-capitalize'>{{this.subject.title}} <span class='text-uppercase'>({{this.subject.code}})</span></p>
+            <p class='mb-0'><span class='text-uppercase'>{{this.section}}</span> | Prof. <span class='text-capitalize'>{{this.teacher.firstname}} {{this.teacher.lastname}}</span></p>
+            <p class='mb-0'><span class='text-uppercase'>{{this.days}}</span> {{formatTime this.timeStart this.timeEnd}}</p>
+            <div class='d-flex justify-content-end'>
+                <button class='badge bg-primary bg-gradient border-0 takeClassBtn'>Take Class</button>
+            </div>
+        </div>
+    {{/each}}
+</div>

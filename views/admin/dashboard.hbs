@@ -1,0 +1,105 @@
+{{> navbar}}
+
+<div class='d-flex overflow-x-auto gap-2 mt-5'>
+    {{> addUserModal}}
+
+    {{> addSubjectModal}}
+
+    {{> addClassScheduleModal}}
+
+    {{> importGrade}}
+
+    {{!-- {{#if data}}
+        <p class="text-white">{{data.trimester}}</p>
+    {{/if}} --}}
+
+    <select class='form-select form-select-sm text-white dark-bg' id='trimesterSelect' style='width: 10rem;'>
+        {{!-- <option value=''>Trimester...</option> --}}
+        {{#if data.trimester}}
+            {{{optionTrimesterHelper data.trimester}}}
+        {{else}}
+            <option value='1st'>1st Trimester</option>
+            <option value='2nd'>2nd Trimester</option>
+            <option value='3rd'>3rd Trimester</option>
+        {{/if}}
+    </select>
+</div>
+
+<br><br>
+
+<nav>
+    <div class='nav nav-tabs small border-0 gap-3 flex-nowrap' id='nav-tab' role='tablist'>
+        <button class='nav-link active py-1 px-2 rounded-pill' id='nav-student-tab' data-bs-toggle='tab' data-bs-target='#nav-student' type='button' role='tab'>Students</button>
+        <button class='nav-link py-1 px-2 rounded-pill' id='nav-teacher-tab' data-bs-toggle='tab' data-bs-target='#nav-teacher' type='button' role='tab'>Teachers</button>
+        <button class='nav-link py-1 px-2 rounded-pill text-nowrap' id='nav-class-tab' data-bs-toggle='tab' data-bs-target='#nav-class' type='button' role='tab'>Class Schedules</button>
+        <button class='nav-link py-1 px-2 rounded-pill' id='nav-subject-tab' data-bs-toggle='tab' data-bs-target='#nav-subject' type='button' role='tab'>Subjects</button>
+    </div>
+</nav>
+
+<div class='tab-content' id='nav-tabContent'>
+
+  <div class='tab-pane fade show active mt-5' id='nav-student' role='tabpanel' tabindex='0'>
+    <div class='row g-5 text-white small'>
+        <div class='col-3'>
+            <input type='text' class='form-control form-control-sm border-0 border-bottom rounded-0 bg-transparent text-white' id='searchStudentBar' placeholder='Search student...'>
+
+            <div class='d-grid gap-3 mt-3' id='studentList'>
+                {{#each students}}
+                    {{!-- <div class='d-flex justify-content-between align-items-center' data-id='{{this._id}}'> --}}
+                    <div class='text-capitalize' data-id='{{this._id}}'>
+                        {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white'><span class='small'>{{this.firstname}} {{this.lastname}}</span> - <span class='small text-uppercase'>{{this.course}}</span></a> --}}
+                        {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white small'>{{this.firstname}} {{this.lastname}}</a> --}}
+                        {{this.firstname}} {{this.lastname}}
+                        {{!-- <div class='d-flex align-items-center gap-3'>
+                            <button type='button' class='btn badge text-primary p-0 editStudentBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-pencil-fill'></i></button>
+                            <button type='button' class='btn badge text-danger p-0 deleteStudentBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-trash3-fill'></i></button>
+                        </div> --}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class='col p-3' id='studentGradeBox' style='height: 23rem;'></div>
+    </div>
+  </div>
+
+  <div class='tab-pane fade' id='nav-teacher' role='tabpanel' tabindex='0'>
+    <input type='text' class='form-control form-control-sm mb-3 mt-5 border-0 border-bottom rounded-0 bg-transparent text-white' id='searchTeacherBar' placeholder='Search teacher...'>
+
+    <div class='d-grid gap-3 text-white' id='teacherList'>
+        {{#each teachers}}
+            <div class='d-flex justify-content-between align-items-center' data-id='{{this._id}}'>
+                <a href='/teacher/{{this._id}}' class='text-capitalize text-white'><span class='small'>{{this.firstname}} {{this.lastname}}</span></a>
+                <div class='d-flex align-items-center gap-3'>
+                    <button type='button' class='btn badge text-primary p-0 editTeacherBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-pencil-fill'></i></button>
+                    <button type='button' class='btn badge text-danger p-0 deleteTeacherBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-trash3-fill'></i></button>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+  </div>
+
+  <div class='tab-pane fade' id='nav-class' role='tabpanel' tabindex='0'>
+    <div class='small text-white mt-5' id='classScheduleList' style='display: grid; grid-template-columns: auto auto auto; gap: 2rem 1rem;'>
+        {{#each classSchedules}}
+            <div class='p-3 mb-3 classSchedule' data-id='{{this._id}}'>
+                <p class='mb-0 text-capitalize'>{{this.subject.title}} <span class='text-uppercase'>({{this.subject.code}})</span></p>
+                <p class='mb-0'><span class='text-uppercase'>{{this.section}}</span> | Prof. <span class='text-capitalize'>{{this.teacher.firstname}} {{this.teacher.lastname}}</span></p>
+                {{!-- <p class='mb-0'>Mon-Wed-Fri | {{this.timeStart}}-{{this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p> --}}
+                {{!-- <p class='mb-0'>Mon-Wed-Fri | {{formatTime this.timeStart this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p> --}}
+                <p class='mb-0'><span class="text-uppercase">{{this.days}}</span> | {{formatTime this.timeStart this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p>
+            </div>
+        {{/each}}
+    </div>
+  </div>
+
+  <div class='tab-pane fade' id='nav-subject' role='tabpanel' tabindex='0'>
+    <input type='text' class='form-control form-control-sm mb-3 mt-5 border-0 border-bottom rounded-0 bg-transparent text-white' id='searchSubjectBar' style='width: 10rem;' placeholder='Search subject...'>
+
+    <div class='text-white small text-uppercase d-flex flex-wrap gap-4' id='subjectList'>
+        {{#each subjects}}
+            <div class='subject' data-id={{this._id}}>{{this.code}}</div>
+        {{/each}}
+    </div>
+  </div>
+  
+</div>
