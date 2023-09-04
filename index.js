@@ -11,8 +11,7 @@ require('dotenv').config();
 
 (async function main() {
     try {
-        // await mongoose.connect('mongodb://127.0.0.1:27017/prospectus');
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/prospectus');
+        await mongoose.connect('mongodb://127.0.0.1:27017/prospectus' || process.env.MONGO_URI);
         console.log('Database connected')
     } catch(err) { console.log(err) }
 })()
@@ -63,9 +62,7 @@ app.use('/api/grades', require('./api/grade'));
 app.use('/api/classSchedules', require('./api/classSchedule'));
 
 // GET - / - Home Route
-app.get('/', (req, res) => {
-    res.render('home', { title: 'Home' });
-});
+app.get('/', (req, res) => res.render('home', { title: 'Home' }));
 
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/dashboard', 
@@ -88,17 +85,10 @@ app.get('/dashboard', async (req, res) => {
         const user = await User.findById(req.user._id).lean();
         const students = await User.find({ role: 'student' }).lean();
         const teachers = await User.find({ role: 'teacher' }).lean();
-        // fs.readFile(path.join(__dirname, 'data', 'global.txt'), 'utf-8', (err, data) => {
-        //     if (err) {
-        //         console.log(err);
-        //     } else {
-        //         console.log(data);
-        //     }
-        // });
-        // const data = JSON.parse(await fs.readFileSync(path.join(__dirname, 'data', 'global.txt'), 'utf-8'));
+
         let data = await fs.readFileSync(path.join(__dirname, 'data', 'global.txt'), 'utf-8');
         data = data !== '' ? JSON.parse(data): '';
-        // const subjects = await Subject.find({ trimester: data.trimester }).lean();
+        
         const subjects = await Subject.find().lean();
         const subjectsInTrimester = await Subject.find({ trimester: data.trimester }).lean();
         const classSchedules = await ClassSchedule.find().populate('teacher').populate('subject').lean();
@@ -148,14 +138,10 @@ app.get('/dashboard', async (req, res) => {
         // }))
 
         const modifiedEnrolledSubjects = enrolledSubjects.map(enrolledSubject => {
-
             const modifiedClassSchedules = enrolledSubject.classSchedules.map(classSchedule => {
-
                 const matchedSubject = subjects.find(subject => subject._id.toString() === classSchedule.subject.toString());
-
                 return { ...classSchedule, subject: matchedSubject };
             });
-
             return { ...enrolledSubject, classSchedules: modifiedClassSchedules }
         });
         // console.log(modifiedEnrolledSubjects[0].classSchedules);
@@ -259,7 +245,7 @@ app.post('/trimester', async (req, res) => {
     } catch (err) { console.log(err) }
 });
 
-app.use((err, req, res, next) => console.log(`Error catch: ${err}` ));
+app.use((err, req, res, next) => console.log(`(Error catch) | ${err}` ));
 
 const PORT = process.env.PORT || 1000;
 

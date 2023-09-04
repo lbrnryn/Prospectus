@@ -5,7 +5,7 @@ const ClassSchedule = require('../models/ClassSchedule.js');
 // GET /api/classSchedules/:id
 router.get('/:id', async (req, res, next) => {
     try {
-        const classSchedule = await ClassSchedule.findById(req.params.id).populate('teacher').populate('subject');
+        const classSchedule = await ClassSchedule.findById(req.params.id).populate('subject').populate('teacher');
         res.json(classSchedule);
     } catch(err) { next(err) }
 });
@@ -15,7 +15,7 @@ router.put('/:id', async (req, res, next) => {
     try {
         const updClassSchedule = await ClassSchedule.findByIdAndUpdate(req.params.id, req.body, { new: true });
         // res.json(updClassSchedule);
-        const classSchedule = await ClassSchedule.findById(updClassSchedule._id).populate('subject');
+        const classSchedule = await ClassSchedule.findById(updClassSchedule._id).populate('subject').populate('teacher');
         res.json(classSchedule);
     } catch(err) { next(err) }
 });
@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
     try {
         const newClassSchedule = await ClassSchedule.create(req.body);
         // res.json(newClassSchedule)
-        const classSchedule = await ClassSchedule.findById(newClassSchedule._id).populate('subject');
+        const classSchedule = await ClassSchedule.findById(newClassSchedule._id).populate('subject').populate('teacher');
         res.json(classSchedule);
     } catch(err) { next(err) }
 });
