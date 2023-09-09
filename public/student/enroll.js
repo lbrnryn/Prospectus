@@ -27,7 +27,7 @@ saveEnrollSubjectsBtn.addEventListener('click', async (e) => {
     const studentID = enrollClassBox.dataset.studentid;
     // const subjectIDs = Array.from(enrollClassBox.children).map(p => p.dataset.id);
     const classScheduleIDs = Array.from(enrollClassBox.children).map(p => p.dataset.id);
-    
+    console.log(classScheduleIDs)
     Array.from(enrollClassBox.children).forEach(p => p.remove());
     e.target.parentElement.classList.add('d-none');
     // location.href = '/dashboard';
@@ -37,8 +37,7 @@ saveEnrollSubjectsBtn.addEventListener('click', async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             student: studentID,
-            // subjects: subjectIDs
-            classSchedule: classScheduleIDs
+            classSchedules: classScheduleIDs
         })
     });
 

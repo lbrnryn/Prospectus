@@ -13,9 +13,11 @@ body {
                 -5px -5px 10px #222222;
 }
 
-#studentList > div > a, #teacherList > div > a { text-decoration: none; }
+#studentList > div:hover { cursor: pointer; }
 
-#studentList > div > a:hover { text-decoration: underline; }
+/* #studentList > div > a, #teacherList > div > a { text-decoration: none; } */
+
+/* #studentList > div > a:hover { text-decoration: underline; } */
 
 #subjectList > div, #teacherList > div, #classScheduleList > div, #enrolledSubjects {
 /* #subjectList > div, #teacherList > div { */
@@ -69,3 +71,7 @@ select > option {
    background-color: transparent;
    color: white;
 } */
+
+#gradeBox {
+    box-shadow: 0px 1px white;
+}

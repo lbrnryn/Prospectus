@@ -99,16 +99,8 @@ export function userModule() {
             
             if (data.role === 'student') {
                 const div = document.createElement('div');
-                // div.className = 'd-flex justify-content-between align-items-center';
-                div.className = 'text-capitalize';
+                div.className = 'text-capitalize student';
                 div.dataset.id = data._id;
-                // div.innerHTML = `
-                //     <a href='/student/${data._id}' class='text-capitalize text-white'><span class='small'>${data.firstname} ${data.lastname}</span> - <span class='small text-uppercase'>${data.course}</span></a>
-                //     <div class='d-flex align-items-center gap-3'>
-                //         <button type='button' class='btn badge text-primary p-0 editStudentBtn' data-url='/api/users/${data._id}'><i class='bi bi-pencil-fill'></i></button>
-                //         <button type='button' class='btn badge text-danger p-0 deleteStudentBtn' data-url='/api/users/${data._id}'><i class='bi bi-trash3-fill'></i></button>
-                //     </div>
-                // `;
                 div.innerText = `${data.firstname} ${data.lastname}`;
                 studentList.appendChild(div);
             }
@@ -151,40 +143,96 @@ export function userModule() {
         addUserForm.lastElementChild.lastElementChild.innerText = 'Submit';
     });
 
+    const studentGradeBox = document.querySelector('#studentGradeBox');
+
+    // studentList.addEventListener('click', async (e) => {
     studentList.addEventListener('click', async (e) => {
-
-        // Edit a user
-        if (e.target.parentElement.classList.contains('editStudentBtn')) {
-            const editStudentBtn = e.target.parentElement;
-            const url = editStudentBtn.dataset.url;
-            editUserUrl = url;
-
-            const res = await fetch(url);
+        // console.log(e.target.classList.contains('student'))
+        if (e.target.classList.contains('student')) {
+            // console.log(e.target.dataset.id);
+            const id = e.target.dataset.id;
+            const res = await fetch(`/enrolledSubjects/${id}`);
             const data = await res.json();
-            // console.log(data);
-
-            firstname.value = data.firstname;
-            lastname.value = data.lastname;
-            Array.from(role).forEach(item => { if (item.value === data.role) { item.selected = true } });
-            idNumber.value = data.idNumber;
-            Array.from(course).forEach(item => { if (item.value === data.course) { item.selected = true } });
-            Array.from(campus).forEach(item => { if (item.value === data.campus) { item.selected = true } });
-            addUserForm.lastElementChild.lastElementChild.innerText = 'Edit';
-
-            new bootstrap.Modal(addUserModal).show();
-
+            console.log(data);
+            studentGradeBox.innerHTML = `
+                <div class='d-flex justify-content-end gap-3'>
+                    <button class='border-0 badge bg-primary'>Edit</button>
+                    <button class='border-0 badge bg-danger'>Delete</button>
+                </div>
+                <p class='text-capitalize'>${data.student.firstname} ${data.student.lastname}</p>
+                ${data.modifiedEnrolledSubjects.length !== 0 ? `${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Year ${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Trimester`: ''}
+                ${data.modifiedEnrolledSubjects.length !== 0 ? enrolledSubjects(data.modifiedEnrolledSubjects) : '<p>No Enrolled Subjects</p>'}
+            `;
         }
 
-        // Delete a user
-        if (e.target.parentElement.classList.contains('deleteStudentBtn')) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                e.target.parentElement.parentElement.parentElement.remove();
-                const deleteStudentBtn = e.target.parentElement;
-                const url = deleteStudentBtn.dataset.url;
+        // ${enrolledSubjects(data.modifiedEnrolledSubjects)}
 
-                await fetch(url, { method: 'DELETE' });
-            }
+        function enrolledSubjects(enrolledSubjects) {
+            return enrolledSubjects.map(enrolledSubject => {
+                return `
+                    <table class="table table-sm text-white">
+                        <tr>
+                            <th>Code</th>
+                            <th>Title</th>
+                            <th>Professor</th>
+                            <th>Units</th>
+                            <th>Section</th>
+                            <th>Grade</th>
+                            <th></th>
+                        </tr>
+                        ${enrolledSubject.classSchedules.map(classSchedule => {
+                            return `
+                                <tr>
+                                    <td>${classSchedule.subject.code}</td>
+                                    <td class='text-capitalize'>${classSchedule.subject.title}</td>
+                                    <td class='text-capitalize'>${classSchedule.teacher.firstname} ${classSchedule.teacher.lastname}</td>
+                                    <td>${classSchedule.subject.units}</td>
+                                    <td class='text-uppercase'>${classSchedule.section}</td>
+                                    <td>
+                                        <!--<input type="text" class="form-control text-white bg-transparent rounded-0 border-0 p-0 text-center ms-2" id="gradeBox" style="width: 1.5rem; font-size: .9rem;" value="3.5">-->
+                                        <input type="text" class="form-control text-white bg-transparent rounded-0 border-0 p-0 text-center ms-2" id="gradeBox" style="width: 1.5rem; font-size: .9rem;">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            `
+                        }).join('')}
+                    </table>
+                `
+            }).join('');
         }
+
+        // // Edit a user
+        // if (e.target.parentElement.classList.contains('editStudentBtn')) {
+        //     const editStudentBtn = e.target.parentElement;
+        //     const url = editStudentBtn.dataset.url;
+        //     editUserUrl = url;
+
+        //     const res = await fetch(url);
+        //     const data = await res.json();
+        //     // console.log(data);
+
+        //     firstname.value = data.firstname;
+        //     lastname.value = data.lastname;
+        //     Array.from(role).forEach(item => { if (item.value === data.role) { item.selected = true } });
+        //     idNumber.value = data.idNumber;
+        //     Array.from(course).forEach(item => { if (item.value === data.course) { item.selected = true } });
+        //     Array.from(campus).forEach(item => { if (item.value === data.campus) { item.selected = true } });
+        //     addUserForm.lastElementChild.lastElementChild.innerText = 'Edit';
+
+        //     new bootstrap.Modal(addUserModal).show();
+
+        // }
+
+        // // Delete a user
+        // if (e.target.parentElement.classList.contains('deleteStudentBtn')) {
+        //     if (confirm('Are you sure you want to delete this user?')) {
+        //         e.target.parentElement.parentElement.parentElement.remove();
+        //         const deleteStudentBtn = e.target.parentElement;
+        //         const url = deleteStudentBtn.dataset.url;
+
+        //         await fetch(url, { method: 'DELETE' });
+        //     }
+        // }
 
     });
 

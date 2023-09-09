@@ -45,8 +45,7 @@
 
             <div class='d-grid gap-3 mt-3' id='studentList'>
                 {{#each students}}
-                    {{!-- <div class='d-flex justify-content-between align-items-center' data-id='{{this._id}}'> --}}
-                    <div class='text-capitalize' data-id='{{this._id}}'>
+                    <div class='text-capitalize student' data-id='{{this._id}}'>
                         {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white'><span class='small'>{{this.firstname}} {{this.lastname}}</span> - <span class='small text-uppercase'>{{this.course}}</span></a> --}}
                         {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white small'>{{this.firstname}} {{this.lastname}}</a> --}}
                         {{this.firstname}} {{this.lastname}}
@@ -58,7 +57,36 @@
                 {{/each}}
             </div>
         </div>
-        <div class='col p-3' id='studentGradeBox' style='height: 23rem;'></div>
+        <div class='col p-3' id='studentGradeBox' style='height: 23rem;'>
+            {{!-- <div class="d-flex justify-content-end gap-3">
+                <button class="border-0 badge bg-primary">Edit</button>
+                <button class="border-0 badge bg-danger">Delete</button>
+            </div>
+            <p>Ryan Libron</p> --}}
+            {{!-- <table class="table table-sm text-white">
+                <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Professor</th>
+                    <th>Units</th>
+                    <th>Section</th>
+                    <th>Grade</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>OS1</td>
+                    <td>Operating System</td>
+                    <td>Jerico Vilog</td>
+                    <td>4</td>
+                    <td>CA322E038</td>
+                    <td>
+                        <input type="text" class="form-control text-white bg-transparent rounded-0 border-0 p-0 text-center ms-2" id="gradeBox" style="width: 1.5rem; font-size: .9rem;" value="3.5">
+                    </td>
+                    <td></td>
+                </tr>
+            </table> --}}
+
+        </div>
     </div>
   </div>
 
