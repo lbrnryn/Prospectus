@@ -125,7 +125,7 @@ app.get('/dashboard', async (req, res, next) => {
         const user = await User.findById(req.user._id).lean();
         const subjects = await Subject.find({ course: user.course }).lean();
         const grades = await Grade.find({ student: req.user._id }).lean();
-        const enrolledSubjects = await EnrolledSubject.find().populate('student').populate('classSchedules').lean();
+        const enrolledSubjects = await EnrolledSubject.find({ student: req.user._id }).populate('student').populate('classSchedules').lean();
 
         const modifiedEnrolledSubjects = enrolledSubjects.map(enrolledSubject => {
             const modifiedClassSchedules = enrolledSubject.classSchedules.map(classSchedule => {

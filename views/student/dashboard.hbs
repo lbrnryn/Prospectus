@@ -5,38 +5,42 @@
 <p class='text-capitalize text-white small'>{{user.firstname}} {{user.lastname}}</p>
 
 <div>
-    {{#each enrolledSubjects}}
-        {{!-- {{{subjectYearTrime this.subjects}}} --}}
-        <div class="accordion" id="enrolledSubjects">
-            {{#each this.classSchedules}}
-                <div class="accordion-item border-0">
-                    <p class="accordion-header">
-                        <button class="accordion-button collapsed p-1 text-capitalize text-white" type="button" style="font-size: .9rem; background-color: #151515;" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}">
-                            {{this.subject.title}}
-                        </button>
-                    </p>
-                    <div class="accordion-collapse collapse" id="collapse{{this._id}}" data-bs-parent="enrolledSubjects">
-                        <div class="accordion-body p-1" style="background-color: #151515;">
-                            <table class="table table-sm table-borderless small text-white">
-                                <tr>
-                                    <th>Title</th>
-                                    <td class="text-capitalize">{{this.subject.title}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Code</th>
-                                    <td>{{this.subject.code}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Units</th>
-                                    <td>{{this.subject.units}}</td>
-                                </tr>
-                            </table>
+    {{#if enrolledSubjects}}
+        {{#each enrolledSubjects}}
+            {{!-- {{{subjectYearTrime this.subjects}}} --}}
+            <div class="accordion" id="enrolledSubjects">
+                {{#each this.classSchedules}}
+                    <div class="accordion-item border-0">
+                        <p class="accordion-header">
+                            <button class="accordion-button collapsed p-1 text-capitalize text-white" type="button" style="font-size: .9rem; background-color: #151515;" data-bs-toggle="collapse" data-bs-target="#collapse{{this._id}}">
+                                {{this.subject.title}}
+                            </button>
+                        </p>
+                        <div class="accordion-collapse collapse" id="collapse{{this._id}}" data-bs-parent="enrolledSubjects">
+                            <div class="accordion-body p-1" style="background-color: #151515;">
+                                <table class="table table-sm table-borderless small text-white">
+                                    <tr>
+                                        <th>Title</th>
+                                        <td class="text-capitalize">{{this.subject.title}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Code</th>
+                                        <td>{{this.subject.code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Units</th>
+                                        <td>{{this.subject.units}}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {{/each}}
-        </div>
-    {{/each}}
+                {{/each}}
+            </div>
+        {{/each}}
+    {{else}}
+        <p class="text-white small">No Enrolled Subjects</p>
+    {{/if}}
 </div>
 {{!-- <div>
     {{#each enrolledSubjects}}
