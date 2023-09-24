@@ -6,20 +6,21 @@ body {
     background-color: #151515;
 }
 
-#studentList > div {
+#studentList > div, #teacherList > div {
     padding: .5rem;
     border-radius: .5rem;
     box-shadow: 5px 5px 10px #080808,
                 -5px -5px 10px #222222;
 }
 
-#studentList > div:hover { cursor: pointer; }
+#studentList > div:hover, #teacherList > div:hover { cursor: pointer; }
 
 /* #studentList > div > a, #teacherList > div > a { text-decoration: none; } */
 
 /* #studentList > div > a:hover { text-decoration: underline; } */
 
-#subjectList > div, #teacherList > div, #classScheduleList > div, #enrolledSubjects {
+/* #subjectList > div, #teacherList > div, #classScheduleList > div, #enrolledSubjects { */
+#subjectList > div, #classScheduleList > div, #enrolledSubjects {
 /* #subjectList > div, #teacherList > div { */
     padding: .5rem;
     border-radius: .5rem;
@@ -39,7 +40,7 @@ body {
                 -5px -5px 10px #222222;
 } */
 
-#studentGradeBox {
+#studentGradeBox, #teacherBox {
     box-shadow: inset 5px 5px 10px #080808,
                 inset -5px -5px 10px #222222;
 }

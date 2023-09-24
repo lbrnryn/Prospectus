@@ -10,7 +10,7 @@
     {{> importGrade}}
 
     {{!-- {{#if data}}
-        <p class="text-white">{{data.trimester}}</p>
+        <p class='text-white'>{{data.trimester}}</p>
     {{/if}} --}}
 
     <select class='form-select form-select-sm text-white dark-bg' id='trimesterSelect' style='width: 10rem;'>
@@ -46,52 +46,31 @@
             <div class='d-grid gap-3 mt-3' id='studentList'>
                 {{#each students}}
                     <div class='text-capitalize student' data-id='{{this._id}}'>
-                        {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white'><span class='small'>{{this.firstname}} {{this.lastname}}</span> - <span class='small text-uppercase'>{{this.course}}</span></a> --}}
-                        {{!-- <a href='/student/{{this._id}}' class='text-capitalize text-white small'>{{this.firstname}} {{this.lastname}}</a> --}}
                         {{this.firstname}} {{this.lastname}}
-                        {{!-- <div class='d-flex align-items-center gap-3'>
-                            <button type='button' class='btn badge text-primary p-0 editStudentBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-pencil-fill'></i></button>
-                            <button type='button' class='btn badge text-danger p-0 deleteStudentBtn' data-url='/api/users/{{this._id}}'><i class='bi bi-trash3-fill'></i></button>
-                        </div> --}}
                     </div>
                 {{/each}}
             </div>
         </div>
-        <div class='col p-3' id='studentGradeBox' style='height: 23rem;'>
-            {{!-- <div class="d-flex justify-content-end gap-3">
-                <button class="border-0 badge bg-primary">Edit</button>
-                <button class="border-0 badge bg-danger">Delete</button>
-            </div>
-            <p>Ryan Libron</p> --}}
-            {{!-- <table class="table table-sm text-white">
-                <tr>
-                    <th>Code</th>
-                    <th>Title</th>
-                    <th>Professor</th>
-                    <th>Units</th>
-                    <th>Section</th>
-                    <th>Grade</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>OS1</td>
-                    <td>Operating System</td>
-                    <td>Jerico Vilog</td>
-                    <td>4</td>
-                    <td>CA322E038</td>
-                    <td>
-                        <input type="text" class="form-control text-white bg-transparent rounded-0 border-0 p-0 text-center ms-2" id="gradeBox" style="width: 1.5rem; font-size: .9rem;" value="3.5">
-                    </td>
-                    <td></td>
-                </tr>
-            </table> --}}
-
-        </div>
+        <div class='col p-3' id='studentGradeBox' style='height: 23rem;'></div>
     </div>
   </div>
 
-  <div class='tab-pane fade' id='nav-teacher' role='tabpanel' tabindex='0'>
-    <input type='text' class='form-control form-control-sm mb-3 mt-5 border-0 border-bottom rounded-0 bg-transparent text-white' id='searchTeacherBar' placeholder='Search teacher...'>
+  <div class='tab-pane fade mt-5' id='nav-teacher' role='tabpanel' tabindex='0'>
+    <div class='row g-5 text-white small'>
+        <div class='col-3'>
+            <input type='text' class='form-control form-control-sm border-0 border-bottom rounded-0 bg-transparent text-white' id='searchTeacherBar' placeholder='Search teacher...'>
+
+            <div class='d-grid gap-3 mt-3' id='teacherList'>
+                {{#each teachers}}
+                    <div class='text-capitalize teacher' data-id='{{this._id}}'>
+                        {{this.firstname}} {{this.lastname}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class='col p-3' id='teacherBox' style='height: 23rem;'></div>
+    </div>
+    {{!-- <input type='text' class='form-control form-control-sm mb-3 mt-5 border-0 border-bottom rounded-0 bg-transparent text-white' id='searchTeacherBar' placeholder='Search teacher...'>
 
     <div class='d-grid gap-3 text-white' id='teacherList'>
         {{#each teachers}}
@@ -103,7 +82,7 @@
                 </div>
             </div>
         {{/each}}
-    </div>
+    </div> --}}
   </div>
 
   <div class='tab-pane fade' id='nav-class' role='tabpanel' tabindex='0'>
@@ -112,7 +91,7 @@
             <div class='p-3 classSchedule' data-id='{{this._id}}'>
                 <p class='mb-0 text-capitalize'>{{this.subject.title}} <span class='text-uppercase'>({{this.subject.code}})</span></p>
                 <p class='mb-0'><span class='text-uppercase'>{{this.section}}</span> | Prof. <span class='text-capitalize'>{{this.teacher.firstname}} {{this.teacher.lastname}}</span></p>
-                <p class='mb-0'><span class="text-uppercase">{{this.days}}</span> | {{formatTime this.timeStart this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p>
+                <p class='mb-0'><span class='text-uppercase'>{{this.days}}</span> | {{formatTime this.timeStart this.timeEnd}} | <span class='text-uppercase'>{{this.room}}</span></p>
             </div>
         {{/each}}
     </div>

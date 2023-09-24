@@ -6,7 +6,7 @@ const path = require('path');
 const passport = require('passport');
 require('./passport')(passport);
 const session = require('express-session');
-const yearTrimeHelper = require('./templateHelper');
+// const yearTrimeHelper = require('./templateHelper');
 require('dotenv').config();
 
 (async function main() {
@@ -92,7 +92,6 @@ app.get('/dashboard', async (req, res, next) => {
         const subjects = await Subject.find().lean();
         const subjectsInTrimester = await Subject.find({ trimester: data.trimester }).lean();
         const classSchedules = await ClassSchedule.find().populate('teacher').populate('subject').lean();
-        
 
         res.render('admin/dashboard', {
             title: 'Admin - Dashboard',
@@ -123,6 +122,7 @@ app.get('/dashboard', async (req, res, next) => {
         });
     } else {
         const user = await User.findById(req.user._id).lean();
+        const teachers = await User.find({ role: 'teacher' }).lean();
         const subjects = await Subject.find({ course: user.course }).lean();
         const grades = await Grade.find({ student: req.user._id }).lean();
         const enrolledSubjects = await EnrolledSubject.find({ student: req.user._id }).populate('student').populate('classSchedules').lean();
@@ -130,60 +130,59 @@ app.get('/dashboard', async (req, res, next) => {
         const modifiedEnrolledSubjects = enrolledSubjects.map(enrolledSubject => {
             const modifiedClassSchedules = enrolledSubject.classSchedules.map(classSchedule => {
                 const matchedSubject = subjects.find(subject => subject._id.toString() === classSchedule.subject.toString());
-                return { ...classSchedule, subject: matchedSubject };
+                const matchedTeacher = teachers.find(teacher => teacher._id.toString() === classSchedule.teacher.toString());
+                return { ...classSchedule, subject: matchedSubject, teacher: matchedTeacher };
             });
+
+            // console.log(modifiedClassSchedules);
+
             return { ...enrolledSubject, classSchedules: modifiedClassSchedules }
         });
-        // console.log(modifiedEnrolledSubjects[0].classSchedules);
-        // console.log(modifiedEnrolledSubjects);
-
-        // const modifiedSubjects = subjects.map(subject => {
-        //     const subjectGrade = grades.find(grade => grade.subject._id.toString() === subject._id.toString());
-
-        //     return { ...subject, grade: subjectGrade }
-        // });
+        // console.log(modifiedEnrolledSubjects)
+        // console.log(modifiedEnrolledSubjects[0].classSchedules)
+        // console.log(modifiedEnrolledSubjects[0].classSchedules[0].teacher)
         
         res.render('student/dashboard', { 
             title: 'Student - Dashboard', 
             user,
             isStudent: user.role === 'student',
-            // subjects: modifiedSubjects,
             enrolledSubjects: modifiedEnrolledSubjects,
             helpers: {
-                subjectYearTrime(subjects) {
-                    return `<p class='text-white small'>${subjects[0].year} Year ${subjects[0].trimester} Trimester</p>`
+                subjectYearTrime(enrolledSubjects) {
+                    // console.log(`${enrolledSubjects.classSchedules[0].subject.year} Year ${enrolledSubjects.classSchedules[0].subject.trimester} Trimester`)
+                    return `<p class='text-white small'>${enrolledSubjects.classSchedules[0].subject.year} Year ${enrolledSubjects.classSchedules[0].subject.trimester} Trimester</p>`;
                 }
             }
         });
     }
 });
 
-app.get('/student/:id', async (req, res, next) => {
-    try {
-        const student = await User.findById(req.params.id).lean();
-        const subjects = await Subject.find({ course: student.course }).lean();
-        const grades = await Grade.find({ student: student._id }).lean();
+// app.get('/student/:id', async (req, res, next) => {
+//     try {
+//         const student = await User.findById(req.params.id).lean();
+//         const subjects = await Subject.find({ course: student.course }).lean();
+//         const grades = await Grade.find({ student: student._id }).lean();
 
-        res.render('admin/student', { 
-            student, 
-            subjects,
-            grades,
-            script: './admin/grade.js',
-            helpers: {
-                firstYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '1st') },
-                firstYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '2nd') },
-                firstYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '3rd') },
-                secondYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '1st') },
-                secondYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '2nd') },
-                secondYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '3rd') },
-                thirdYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '1st') },
-                thirdYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '2nd') },
-                thirdYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '3rd') },
-                fourthYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '4th', '1st') },
-            }
-        });
-    } catch (err) { next(err) }
-});
+//         res.render('admin/student', { 
+//             student, 
+//             subjects,
+//             grades,
+//             script: './admin/grade.js',
+//             helpers: {
+//                 firstYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '1st') },
+//                 firstYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '2nd') },
+//                 firstYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '1st', '3rd') },
+//                 secondYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '1st') },
+//                 secondYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '2nd') },
+//                 secondYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '2nd', '3rd') },
+//                 thirdYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '1st') },
+//                 thirdYearsecondTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '2nd') },
+//                 thirdYearthirdTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '3rd', '3rd') },
+//                 fourthYearfirstTrime(subjects, student) { return yearTrimeHelper(subjects, student, grades, '4th', '1st') },
+//             }
+//         });
+//     } catch (err) { next(err) }
+// });
 
 app.put('/grade/subject/:id', async (req, res, next) => {
     try {
@@ -197,9 +196,6 @@ app.get('/enroll', async (req, res, next) => {
         const user = await User.findById(req.user._id).lean();
         const classSchedules = await ClassSchedule.find().populate('teacher').populate('subject').lean();
         const enrolledSubjects = await EnrolledSubject.find().lean();
-        // console.log(classSchedules.filter(classSchedule => {
-        //     return !enrolledSubjects.some(enrolledSubject => enrolledSubject.classSchedules.toString().includes(classSchedule._id.toString()))
-        // }))
         const modifiedClassSchedules = classSchedules.filter(classSchedule => !enrolledSubjects.some(enrolledSubject => enrolledSubject.classSchedules.toString().includes(classSchedule._id.toString())));
 
         res.render('student/enroll', {
@@ -225,37 +221,18 @@ app.get('/enrolledSubjects/:studentID', async (req, res, next) => {
         const student = await User.findById(req.params.studentID).lean();
         const subjects = await Subject.find().lean();
         const teachers = await User.find({ role: 'teacher' }).lean();
-        // console.log(teachers)
-        // console.log(student)
-        // console.log(subjects);
-        // res.json(enrolledSubjects);
-        
-        // res.json(enrolledSubjects[0].classSchedules);
 
         const modifiedEnrolledSubjects = enrolledSubjects.map(enrolledSubject => {
-            // console.log(enrolledSubject.student.toString())
-
             const modifiedClassSchedules = enrolledSubject.classSchedules.map(classSchedule => {
                 const matchedSubject = subjects.find(subject => subject._id.toString() === classSchedule.subject.toString());
                 const matchedTeacher = teachers.find(teacher => teacher._id.toString() === classSchedule.teacher.toString());
                 return { ...classSchedule, subject: matchedSubject, teacher: matchedTeacher };
             });
-
             return { ...enrolledSubject, classSchedules: modifiedClassSchedules };
-            // return { ...enrolledSubject, student, classSchedules: modifiedClassSchedules };
         });
 
-        // console.log(modifiedEnrolledSubjects)
-        // console.log(modifiedEnrolledSubjects[0].classSchedules)
-        // res.json(modifiedEnrolledSubjects);
         res.json({ student, modifiedEnrolledSubjects });
 
-        // console.log(enrolledSubjects[0].classSchedules.map(classSchedule => {
-        //     const matchedSubject = subjects.find(subject => subject._id.toString() === classSchedule.subject.toString());
-        //     return { ...classSchedule, subject: matchedSubject };
-        // }));
-
-        // res.json({ student, enrolledSubjects });
     } catch (err) { next(err) }
 });
 

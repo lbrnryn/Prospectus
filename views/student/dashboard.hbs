@@ -7,7 +7,7 @@
 <div>
     {{#if enrolledSubjects}}
         {{#each enrolledSubjects}}
-            {{!-- {{{subjectYearTrime this.subjects}}} --}}
+            {{{subjectYearTrime this}}}
             <div class="accordion" id="enrolledSubjects">
                 {{#each this.classSchedules}}
                     <div class="accordion-item border-0">
@@ -28,8 +28,16 @@
                                         <td>{{this.subject.code}}</td>
                                     </tr>
                                     <tr>
+                                        <th>Professor</th>
+                                        <td class="text-capitalize">{{this.teacher.firstname}} {{this.teacher.lastname}}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Units</th>
                                         <td>{{this.subject.units}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Section</th>
+                                        <td class="text-uppercase">{{this.section}}</td>
                                     </tr>
                                 </table>
                             </div>

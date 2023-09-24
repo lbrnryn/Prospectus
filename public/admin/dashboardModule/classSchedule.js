@@ -106,7 +106,6 @@ export function classScheduleModule() {
 
             const res = await fetch(url);
             const data = await res.json();
-
             Array.from(subject.children).find(option => option.value === data.subject._id).selected = true;
             section.value = data.section;
             days.value = data.days;
