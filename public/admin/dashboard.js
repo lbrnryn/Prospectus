@@ -34,3 +34,16 @@ searchStudentBar.addEventListener('keyup', (e) => {
         }
     })
 });
+
+const searchTeacherBar = document.querySelector('#searchTeacherBar');
+const teacherList = document.querySelector('#teacherList');
+
+searchTeacherBar.addEventListener('keyup', (e) => {
+    Array.from(teacherList.children).forEach(div => {
+        if (div.innerText.toLowerCase().trim().includes(e.target.value.toLowerCase())) {
+            div.style.display = 'block';
+        } else {
+            div.style.display = 'none';
+        }
+    })
+});
