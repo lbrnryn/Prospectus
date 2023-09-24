@@ -20,4 +20,17 @@ trimesterSelect.addEventListener('change', async (e) => {
         });
     }
     currentTrime.selected = true;
-});  
+});
+
+const searchStudentBar = document.querySelector('#searchStudentBar');
+const studentList = document.querySelector('#studentList');
+
+searchStudentBar.addEventListener('keyup', (e) => {
+    Array.from(studentList.children).forEach(div => {
+        if (div.innerText.toLowerCase().trim().includes(e.target.value.toLowerCase())) {
+            div.style.display = 'block';
+        } else {
+            div.style.display = 'none';
+        }
+    })
+});

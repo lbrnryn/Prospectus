@@ -91,6 +91,7 @@ app.get('/dashboard', async (req, res, next) => {
         
         const subjects = await Subject.find().lean();
         const subjectsInTrimester = await Subject.find({ trimester: data.trimester }).lean();
+        // console.log(subjectsInTrimester);
         const classSchedules = await ClassSchedule.find().populate('teacher').populate('subject').lean();
 
         res.render('admin/dashboard', {
@@ -211,7 +212,7 @@ app.get('/enroll', async (req, res, next) => {
 app.post('/enroll', async (req, res, next) => {
     try {
         const enrolledSubjects = await EnrolledSubject.create(req.body);
-        console.log(enrolledSubjects);
+        // console.log(enrolledSubjects);
     } catch(err) { next(err) }   
 });
 
