@@ -34,6 +34,15 @@ router.delete('/:id', async (req, res, next) => {
 //         res.json(classSchedules);
 //     } catch(err) { next(err) }
 // });
+
+// GET /api/classSchedules?
+router.get('/', async (req, res, next) => {
+    try {
+        // console.log(req.query);
+        const classSchedules = await ClassSchedule.find(req.query).populate('subject');
+        res.json(classSchedules)
+    } catch (err) { next(err) }
+});
  
 // POST - Add class schedule - /api/classSchedules
 router.post('/', async (req, res, next) => {

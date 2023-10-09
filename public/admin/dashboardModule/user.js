@@ -49,7 +49,7 @@ export function userModule() {
 
             const data = await res.json();
 
-            if (data.student.role === 'student') {
+            if (data.role === 'student') {
                 const foundMatchStudent = Array.from(studentList.children).find(studentLi => studentLi.dataset.id === data.student._id);
                 foundMatchStudent.innerText = `${data.student.firstname} ${data.student.lastname}`;
 
@@ -66,13 +66,7 @@ export function userModule() {
 
             if (data.role === 'teacher') {
                 const foundMatchTeacher = Array.from(teacherList.children).find(teacherLi => teacherLi.dataset.id === data._id);
-                foundMatchTeacher.innerHTML = `
-                    <a href='/teacher/${data._id}' class='text-capitalize text-white'><span class='small'>${data.firstname} ${data.lastname}</span></a>
-                    <div class='d-flex align-items-center gap-3'>
-                        <button type='button' class='btn badge text-primary p-0 editTeacherBtn' data-url='/api/users/${data._id}'><i class='bi bi-pencil-fill'></i></button>
-                        <button type='button' class='btn badge text-danger p-0 deleteTeacherBtn' data-url='/api/users/${data._id}'><i class='bi bi-trash3-fill'></i></button>
-                    </div>
-                `;
+                foundMatchTeacher.innerText = `${data.firstname} ${data.lastname}`;
             }
 
             firstname.value = '';
@@ -110,15 +104,9 @@ export function userModule() {
 
             if (data.role === 'teacher') {
                 const div = document.createElement('div');
-                div.className = 'd-flex justify-content-between align-items-center';
+                div.className = 'text-capitalize teacher';
                 div.dataset.id = data._id;
-                div.innerHTML = `
-                    <a href='/teacher/${data._id}' class='text-capitalize text-white'><span class='small'>${data.firstname} ${data.lastname}</span></a>
-                    <div class='d-flex align-items-center gap-3'>
-                        <button type='button' class='btn badge text-primary p-0 editTeacherBtn' data-url='/api/users/${data._id}'><i class='bi bi-pencil-fill'></i></button>
-                        <button type='button' class='btn badge text-danger p-0 deleteTeacherBtn' data-url='/api/users/${data._id}'><i class='bi bi-trash3-fill'></i></button>
-                    </div>
-                `;
+                div.innerText = `${data.firstname} ${data.lastname}`;
                 teacherList.appendChild(div);
             }
 
@@ -234,33 +222,89 @@ export function userModule() {
         }
     });
 
+    const teacherBox = document.querySelector('#teacherBox');
+
     teacherList.addEventListener('click', async (e) => {
 
         if (e.target.classList.contains('teacher')) {
             const id = e.target.dataset.id;
-            // const res = await fetch(`/enrolledSubjects/${id}`);
-            // const data = await res.json();
+
+            const res = await Promise.all([
+                fetch(`/api/users/${id}`),
+                fetch(`/api/classSchedules?teacher=${id}`)   
+            ]);
+
+            const [teacherData, classSchedulesData] = res;
+
+            const teacher = await teacherData.json();
+            const classSchedules = await classSchedulesData.json();
 
             teacherBox.innerHTML = `
                 <div class='d-flex justify-content-end gap-3'>
-                    <button class='border-0 badge bg-primary editTeacherBtn' data-id=''>Edit</button>
-                    <button class='border-0 badge bg-danger deleteTeacherBtn' data-id=''>Delete</button>
+                    <button class='border-0 badge bg-primary editTeacherBtn' data-id='${teacher._id}'>Edit</button>
+                    <button class='border-0 badge bg-danger deleteTeacherBtn' data-id='${teacher._id}'>Delete</button>
                 </div>
-                <p class='text-capitalize'>Jerico Vilog</p>
-                <!-- ${data.modifiedEnrolledSubjects.length !== 0 ? `${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Year ${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Trimester`: ''}
-                ${data.modifiedEnrolledSubjects.length !== 0 ? enrolledSubjects(data.modifiedEnrolledSubjects) : '<p>No Enrolled Subjects</p>'} -->
+                <p class='text-capitalize'>${teacher.firstname} ${teacher.lastname}</p>
+                <table class="table table-sm text-white">
+                    <tr>
+                        <th>Code</th>
+                        <th>Title</th>
+                        <th>Section</th>
+                        <th>Room</th>
+                        <th>Days / Time</th>
+                        <th>Slot</th>
+                    </tr>
+                    ${classSchedules.map(classSchedule => {
+                        return `
+                            <tr>
+                                <td>${classSchedule.subject.code}</td>
+                                <td class='text-capitalize'>${classSchedule.subject.title}</td>
+                                <td class='text-uppercase'>${classSchedule.section}</td>
+                                <td class='text-uppercase'>${classSchedule.room}</td>
+                                <td class='text-uppercase'>${classSchedule.days}</td>
+                                <td>${classSchedule.slot}</td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </table>
             `;
-            // teacherBox.innerHTML = `
-            //     <div class='d-flex justify-content-end gap-3'>
-            //         <button class='border-0 badge bg-primary editTeacherBtn' data-id='${data.teacher._id}'>Edit</button>
-            //         <button class='border-0 badge bg-danger deleteTeacherBtn' data-id='${data.teacher._id}'>Delete</button>
-            //     </div>
-            //     <p class='text-capitalize'>${data.teacher.firstname} ${data.teacher.lastname}</p>
-            //     <!-- ${data.modifiedEnrolledSubjects.length !== 0 ? `${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Year ${data.modifiedEnrolledSubjects[0].classSchedules[0].subject.year} Trimester`: ''}
-            //     ${data.modifiedEnrolledSubjects.length !== 0 ? enrolledSubjects(data.modifiedEnrolledSubjects) : '<p>No Enrolled Subjects</p>'} -->
-            // `;
         }
 
+    });
+
+    teacherBox.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('editTeacherBtn')) {
+            const editTeacherBtn = e.target;
+            const id = editTeacherBtn.dataset.id;
+            const url = `/api/users/${id}`;
+            editUserUrl = url;
+
+            const res = await fetch(url);
+            const data = await res.json();
+
+            firstname.value = data.firstname;
+            lastname.value = data.lastname;
+            Array.from(role).forEach(item => { if (item.value === data.role) { item.selected = true } });
+            idNumber.value = data.idNumber;
+            Array.from(course).forEach(item => { if (item.value === data.course) { item.selected = true } });
+            Array.from(campus).forEach(item => { if (item.value === data.campus) { item.selected = true } });
+            addUserForm.lastElementChild.lastElementChild.innerText = 'Edit';
+
+            new bootstrap.Modal(addUserModal).show();
+        
+        }
+        if (e.target.classList.contains('deleteTeacherBtn')) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                const deleteTeacherBtn = e.target;
+                const id = deleteTeacherBtn.dataset.id;
+                teacherBox.innerHTML = '';
+                const url = `/api/users/${id}`;
+
+                Array.from(teacherList.children).find(div => div.dataset.id === id).remove();
+
+                await fetch(url, { method: 'DELETE' });
+            }
+        }
     });
 
     // teacherList.addEventListener('click', async (e) => {
